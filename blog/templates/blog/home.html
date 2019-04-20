@@ -1,0 +1,59 @@
+{% extends 'account/layout.html' %}
+{%block title%}blog {%endblock%}
+{%block content%}
+<div class="container">
+    <div class="col-md-8">
+        {% for item in Posts %}
+        <article class="media content-section">
+            <img class="img-circle article-img" src="{{item.author.profile.image.url }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'userposts' item.author.username %}">{{ item.author }}</a>
+                    <small class="text-muted">{{ item.date_posted }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'postdetails' item.id %}">{{ item.title }}</a></h2>
+                <p class="article-content">{{ item.content }}</p>
+            </div>
+        </article>
+        {%endfor%}
+
+        {% if is_paginated %}
+        {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">first</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif%}
+
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <a class="btn btn-infon mb-4" href="?page={{num}}">{{num}}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a class="btn btn-outline-info mb-4" href="?page={{num}}">{{num}}</a>
+        {%endif%}
+        {%endfor%}
+
+        {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+
+        {% endif%}
+        {%endif%}
+
+    </div>
+    <div class="col-md-4">
+        <div class="content-section">
+
+            <h3>OUR BLOG SITE</h3>
+            <ul class="list-group">
+                {% if user.is_authenticated %}
+                <li class="list-group-item list-group-item-light"><a href="{% url 'create_post' %}">Create Post</a>
+                </li>
+                {%endif%}
+                <li class="list-group-item list-group-item-light">Latest Posts</li>
+                <li class="list-group-item list-group-item-light">Calendars</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+{%endblock content%}

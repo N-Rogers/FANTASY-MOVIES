@@ -1,0 +1,55 @@
+{% extends 'account/base.html' %}
+{%block content%}
+<div class="row">
+    <div class="col-md-9">
+        <h2 class="article-title">{{ play_movie.movie_title }}/{{ play_movie.category }}</h2>
+
+        <video width='100%' height:auto controls autoplay>
+            <source src='{{ play_movie.movie_file.url }}' type='video/mp4'>
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="col-md-3">
+        <div class="content-section">
+
+            <h3> <a href="{% url 'moviehome' %}">FANTACY MOVIES</a></h3>
+            <ul class="list-group">
+                {% if user.is_authenticated %}
+                <li class="list-group-item list-group-item-light"><a href="{% url 'movie-create' %}">Post movie</a>
+                </li>
+                {%endif%}
+                <li class="list-group-item list-group-item-light"><a href="{% url 'action-movies' %}">Action
+                        movies</a>
+                </li>
+                <li class="list-group-item list-group-item-light"> <a href="{% url 'adventure-movies' %}">adventure</a>
+                </li>
+                <li class="list-group-item list-group-item-light">Series</li>
+                <li class="list-group-item list-group-item-light">Horror</li>
+
+            </ul>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h3>RELATED MOVIES</h3>
+</div>
+<div class="row" style="margin-top: 10px">
+    {% for movie in allmovies %}
+    <div class="col-md-3">
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a href="{% url 'playmovie' movie.id%}"> <video class="" width='100%' height:auto>
+                            <source src='{{ movie.movie_file.url }}' type='video/mp4'>
+                            Your browser does not support the video tag.
+                        </video></a>
+                    <br>
+                    {{ movie.movie_title }}
+                </div>
+            </div>
+        </article>
+    </div>
+    {%endfor%}
+</div>
+{%endblock content%}

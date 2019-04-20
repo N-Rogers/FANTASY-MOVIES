@@ -1,0 +1,9 @@
+{% extends "account/layout.html"%}
+{%block content%}
+<div class="contaner">
+    <h2>You are logged out</h2>
+    <small class="text-muted">
+        Login again <a class="ml-2" href="{% url 'Login-user'%}">Login again</a>
+    </small>
+</div>
+{%endblock%}

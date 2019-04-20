@@ -1,0 +1,73 @@
+{% extends 'account/base.html' %}
+{%load static %}
+
+{%block content%}
+<div class="row" style="margin-top: 10px">
+    <div class="col-md-9">
+        <form method="GET" action="{% url 'search' %}">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username"
+                    aria-describedby="basic-addon2" name="q" value="{{ request.GET.q }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="col-md-3"></div>
+</div>
+<div class="row">
+    <div class="col-md-9" style="margin-top: 10px">
+        <video class="" width='100%' height:auto controls autoplay>
+            <source src="{% static 'account/images/movies.mp4' %}" type='video/mp4'>
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="col-md-3">
+        <div class="content-section">
+
+            <h3> <a href="{% url 'moviehome' %}">FANTACY MOVIES</a></h3>
+            <ul class="list-group">
+                {% if user.is_authenticated %}
+                <li class="list-group-item list-group-item-light"><a href="{% url 'movie-create' %}">Post movie</a>
+                </li>
+                {%endif%}
+                <li class="list-group-item list-group-item-light"><a href="{% url 'action-movies' %}">Action movies</a>
+                </li>
+                <li class="list-group-item list-group-item-light"> <a href="{% url 'adventure-movies' %}">adventure</a>
+                </li>
+                <li class="list-group-item list-group-item-light">Series</li>
+                <li class="list-group-item list-group-item-light">Horror</li>
+
+            </ul>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    {% for movie in files %}
+    <div class="col-md-3">
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a href="{% url 'playmovie' movie.id%}"> <video class="" width='100%' height:auto>
+                            <source src='{{ movie.movie_file.url }}' type='video/mp4'>
+                            Your browser does not support the video tag.
+                        </video></a>
+                    <br>
+                    <a href="{% url 'playmovie' movie.id%}">{{ movie.movie_title }}</a>
+                    <br />
+                    {{ movie.category }}
+
+                </div>
+            </div>
+        </article>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}
